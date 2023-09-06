@@ -7,6 +7,10 @@ publicRouter.post('/api/users', function(req,res){
     userController.register
 })
 
+publicRouter.post('/api/users/login', function(req,res){
+    userController.login
+})
+
 export {
     publicRouter
 }

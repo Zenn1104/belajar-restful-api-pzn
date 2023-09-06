@@ -1,34 +1,32 @@
-import supertest from "supertest"
-import { web } from "../src/application/web"
-import { prismaClient } from "../src/application/database"
+import request from "supertest"
+import { web } from "../src/application/web.js"
+import { logger } from "../src/application/logging.js"
+import { createTestUser, removeTestUser } from "./test-util.js"
 
 describe('POST /api/users', function() {
 
     afterEach(async() => {
-       await prismaClient.user.deleteMany({
-            where: {
-                username: 'zennn'
-            }
-        })
+       await removeTestUser()
     })
 
     it('should can register new user', async() => {
-        const data = await supertest(web)
+        const result = await request(web)
         .post('/api/users')
         .send({
-            username: 'zennn',
+            username: 'test',
             password: 'rahasia',
-            name: 'Baso Alif'
+            name: 'test'
         })
 
         expect(result.status).toBe(200)
-        expect(result.body.data.username).toBe('zennn')
-        expect(result.body.data.name).toBe('Baso Alif')
-        expect(result.body.data.password).toBe()
+        expect(result.body.data.username).toBe('test')
+        expect(result.body.data.name).toBe('test')
+        expect(result.body.data.password).toBeUndefined()
+        
     })
 
-    it('should reject if request is invalid', async() => {
-        const result = await supertest(web)
+    it('should rejected whnen eorror', async() => {
+        const result = await request(web)
         .post('/api/users')
         .send({
             username: '',
@@ -36,8 +34,100 @@ describe('POST /api/users', function() {
             name: ''
         })
 
+        logger.info(result.body)
+
         expect(result.status).toBe(400)
-        expect(result.body.errors).toBeUndefined()
+        expect(result.body.errors).toBeDefined()   
     })
 
-},30000)
+    it('should reject if username already registered', async() => {
+        let result = await request(web)
+        .post('/api/users')
+        .send({
+            username: 'test',
+            password: 'rahasia',
+            name: 'test'
+        })
+
+        expect(result.status).toBe(200)
+        expect(result.body.data.username).toBe('test')
+        expect(result.body.data.name).toBe('test')
+        expect(result.body.data.password).toBeUndefined()
+        
+        result = await request(web)
+        .post('/api/users')
+        .send({
+            username: 'test',
+            password: 'rahasia',
+            name: 'test'
+        })
+
+        logger.info(result.body)
+
+        expect(result.status).toBe(400)
+        expect(result.body.errors).toBeDefined()
+    })
+})
+
+
+describe('POST /api/users/login', function () {
+    beforeEach(async () => {
+        await createTestUser()
+    })
+
+    afterEach(async () => {
+        await removeTestUser()
+    })
+
+    it('should can login', async () => {
+        const result = request(web).post('/api/users/login').send({
+            username: "test",
+            password: "rahasia"
+        })
+
+        logger.info(result.body)
+
+        expect(result.status).toBe(200)
+        expect(result.body.data.token).toBeDefined()
+        expect(result.body.data.token).not.toBe("test")
+    })
+
+    it('should reject login if is invalid', async () => {
+        const result = request(web)
+        .post('/api/users/login')
+        .send({
+            username: "",
+            password: ""
+        })
+
+        logger.info(result.body)
+
+        expect(result.status).toBe(400)
+        expect(result.body.errors).toBeDefined()
+    })
+
+    it('should reject login if password is wrong', async () => {
+        const result = request(web).post('/api/users/login').send({
+            username: "test",
+            password: "salah"
+        })
+
+        logger.info(result.body)
+
+        expect(result.status).toBe(401)
+        expect(result.body.errors).toBeDefined()
+    })
+
+    it('should reject login if username is wrong', async () => {
+        const result = request(web).post('/api/users/login').send({
+            username: "salah",
+            password: "salah"
+        })
+
+        logger.info(result.body)
+
+        expect(result.status).toBe(401)
+        expect(result.body.errors).toBeDefined()
+    })
+    
+})
