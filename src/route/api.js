@@ -10,6 +10,9 @@ userRouter.get('/api/users/login', function(req,res){
 userRouter.patch('/api/users/login', function(req,res){
     userController.update
 })
+userRouter.delete('/api/users/login', function(req,res){
+    userController.logout
+})
 
 
 export {

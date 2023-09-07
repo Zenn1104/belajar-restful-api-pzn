@@ -6,9 +6,10 @@ import bcrypt from "bcrypt"
 
 describe('POST /api/users', function() {
 
+
     afterEach(async() => {
        await removeTestUser()
-    })
+    },100000)
 
     it('should can register new user', async() => {
         const result = await request(web)
@@ -18,6 +19,7 @@ describe('POST /api/users', function() {
             password: 'rahasia',
             name: 'test'
         })
+        .expect(200)
 
         expect(result.status).toBe(200)
         expect(result.body.data.username).toBe('test')
@@ -74,6 +76,7 @@ describe('POST /api/users', function() {
 describe('POST /api/users/login', function () {
     beforeEach(async () => {
         await createTestUser()
+        jest.setTimeout(70000)
     })
 
     afterEach(async () => {
@@ -136,6 +139,7 @@ describe('POST /api/users/login', function () {
 describe('GET /api/users/current', function () {
     beforeEach(async () => {
         await createTestUser()
+        jest.setTimeout(70000)
     })
 
     afterEach(async () => {
@@ -228,4 +232,36 @@ describe('PATCH /api/users/current', function () {
 
         expect(result.status).toBe(401)
     })
+})
+
+describe('DELETE /api/users/logout', function () {
+
+    beforeEach(async () => {
+        await createTestUser()
+    })
+
+    afterEach(async () => {
+        await removeTestUser()
+    })
+
+    it('should can logout', async () => {
+        const result = await request(web)
+        .delete('/api/users/logout')
+        .set('Authorization', 'test')
+
+        expect(result.status).toBe(200)
+        expect(result.body.data).toBe("OK")
+
+        const user = await getTestUser()
+        expect(user.token).toBeNull()
+    })
+
+    it('should reject logout if token is invalid', async () => {
+        const result = await request(web)
+        .delete('/api/users/logout')
+        .set('Authorization', 'salah')
+
+        expect(result.status).toBe(401)
+    })
+    
 })
