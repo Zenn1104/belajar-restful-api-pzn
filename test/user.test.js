@@ -2,6 +2,7 @@ import request from "supertest"
 import { web } from "../src/application/web.js"
 import { logger } from "../src/application/logging.js"
 import { createTestUser, removeTestUser } from "./test-util.js"
+import supertest from "supertest"
 
 describe('POST /api/users', function() {
 
@@ -130,4 +131,33 @@ describe('POST /api/users/login', function () {
         expect(result.body.errors).toBeDefined()
     })
     
+})
+
+describe('GET /api/users/current', function () {
+    beforeEach(async () => {
+        await createTestUser()
+    })
+
+    afterEach(async () => {
+        await removeTestUser()
+    })
+
+    it('should get current users', async () => {
+        const result = await request(web)
+        .get('/api/users/current')
+        .set('Authorization', 'test')
+
+        expect(result.status).toBe(200)
+        expect(result.body.data.username).toBe('test')
+        expect(result.body.data.name).toBe('test')
+    })
+
+    it('should reject iftoken is nvalid', async () => {
+        const result = await request(web)
+        .get('/api/users/current')
+        .set('Authorization', 'salah')
+
+        expect(result.status).toBe(401)
+        expect(result.body.errors).toBeDefined()
+    })
 })
