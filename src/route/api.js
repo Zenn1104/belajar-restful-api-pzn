@@ -7,6 +7,9 @@ userRouter.use(authMiddleware)
 userRouter.get('/api/users/login', function(req,res){
     userController.get
 })
+userRouter.patch('/api/users/login', function(req,res){
+    userController.update
+})
 
 
 export {
