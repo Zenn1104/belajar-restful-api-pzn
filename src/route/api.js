@@ -24,6 +24,9 @@ userRouter.post('/api/contacts', function(req,res){
 userRouter.get('/api/contacts/:contactId', function(req,res){
     contactController.get
 })
+userRouter.put('/api/contacts/:contactId', function(req,res){
+    contactController.update
+})
 
 
 export {

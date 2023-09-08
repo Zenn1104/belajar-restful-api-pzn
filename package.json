@@ -4,7 +4,7 @@
   "description": "belajar restapi bersama pak eko khanedy",
   "main": "src/main.js",
   "scripts": {
-    "test": "jest -i --detectOpenHandles "
+    "test": "jest --detectOpenHandles "
   },
   "jest": {
     "transform": {
