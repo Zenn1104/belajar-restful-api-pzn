@@ -21,6 +21,9 @@ userRouter.delete('/api/users/login', function(req,res){
 userRouter.post('/api/contacts', function(req,res){
     contactController.create
 })
+userRouter.get('/api/contacts/:contactId', function(req,res){
+    contactController.get
+})
 
 
 export {
