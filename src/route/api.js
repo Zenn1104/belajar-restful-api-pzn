@@ -7,26 +7,15 @@ const userRouter = express.Router()
 userRouter.use(authMiddleware)
 
 // user API
-userRouter.get('/api/users/login', function(req,res){
-    userController.get
-})
-userRouter.patch('/api/users/login', function(req,res){
-    userController.update
-})
-userRouter.delete('/api/users/login', function(req,res){
-    userController.logout
-})
+userRouter.get('/api/users/current', [userController.get])
+userRouter.patch('/api/users/current', [userController.update])
+userRouter.delete('/api/users/logout', [userController.logout])
 
 // contact API
-userRouter.post('/api/contacts', function(req,res){
-    contactController.create
-})
-userRouter.get('/api/contacts/:contactId', function(req,res){
-    contactController.get
-})
-userRouter.put('/api/contacts/:contactId', function(req,res){
-    contactController.update
-})
+userRouter.post('/api/contacts', [contactController.create])
+userRouter.get('/api/contacts/:contactId', [contactController.get])
+userRouter.put('/api/contacts/:contactId', [contactController.update])
+userRouter.put('/api/contacts/:contactId', [contactController.remove])
 
 
 export {
