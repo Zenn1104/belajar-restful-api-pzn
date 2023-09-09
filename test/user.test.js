@@ -9,7 +9,7 @@ describe('POST /api/users', function() {
 
     afterEach(async() => {
        await removeTestUser()
-    },100000)
+    })
 
     it('should can register new user', async() => {
         const result = await request(web)
