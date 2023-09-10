@@ -46,7 +46,7 @@ const login = async (request) => {
         throw new ResponseError(401, "Username or password wrong")
     }
 
-    const isPasswordValid = await bcrypt.compare(loginUserValidation.password , user.password)
+    const isPasswordValid = await bcrypt.compare(loginRequest.password , user.password)
     if(!isPasswordValid) {
         throw new ResponseError(401, "Username or password wrong")
     }

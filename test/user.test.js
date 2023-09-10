@@ -76,7 +76,6 @@ describe('POST /api/users', function() {
 describe('POST /api/users/login', function () {
     beforeEach(async () => {
         await createTestUser()
-        jest.setTimeout(70000)
     })
 
     afterEach(async () => {
@@ -84,7 +83,9 @@ describe('POST /api/users/login', function () {
     })
 
     it('should can login', async () => {
-        const result = request(web).post('/api/users/login').send({
+        const result = await request(web)
+        .post('/api/users/login')
+        .send({
             username: "test",
             password: "rahasia"
         })
@@ -97,7 +98,7 @@ describe('POST /api/users/login', function () {
     })
 
     it('should reject login if is invalid', async () => {
-        const result = request(web)
+        const result = await request(web)
         .post('/api/users/login')
         .send({
             username: "",
@@ -111,7 +112,9 @@ describe('POST /api/users/login', function () {
     })
 
     it('should reject login if password is wrong', async () => {
-        const result = request(web).post('/api/users/login').send({
+        const result = await request(web)
+        .post('/api/users/login')
+        .send({
             username: "test",
             password: "salah"
         })
@@ -123,7 +126,9 @@ describe('POST /api/users/login', function () {
     })
 
     it('should reject login if username is wrong', async () => {
-        const result = request(web).post('/api/users/login').send({
+        const result = await request(web)
+        .post('/api/users/login')
+        .send({
             username: "salah",
             password: "salah"
         })
@@ -203,9 +208,6 @@ describe('PATCH /api/users/current', function () {
         expect(result.status).toBe(200)
         expect(result.body.data.username).toBe("test")
         expect(result.body.data.name).toBe("Baso")
-
-        const user = await getTestUser()
-        expect(await bcrypt.compare("rahasialagi", user.password)).toBe(true)
     })
 
     it('should can update user password', async () => {
