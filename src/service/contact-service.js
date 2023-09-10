@@ -1,8 +1,7 @@
 import { prismaClient } from "../application/database.js"
-import { createContactValidation, getContactValidation, searchContacValidation } from "../validation/contact-validation"
+import { createContactValidation, getContactValidation, updateContactValidation, searchContacValidation } from "../validation/contact-validation.js"
 import { validate } from "../validation/validation.js"
 import { ResponseError } from "../error/response-error.js"
-import { request } from "express"
 
 const create = async (user, request) => {
     const contact = validate(createContactValidation, request)
