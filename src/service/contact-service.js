@@ -1,5 +1,8 @@
 import { prismaClient } from "../application/database.js"
-import { createContactValidation, getContactValidation, updateContactValidation, searchContacValidation } from "../validation/contact-validation.js"
+import { createContactValidation,
+        getContactValidation, 
+        updateContactValidation, 
+        searchContactValidation } from "../validation/contact-validation.js"
 import { validate } from "../validation/validation.js"
 import { ResponseError } from "../error/response-error.js"
 
@@ -7,7 +10,7 @@ const create = async (user, request) => {
     const contact = validate(createContactValidation, request)
     contact.username = user.username
 
-    return prismaClient.user.create({
+    return prismaClient.contact.create({
         data: contact,
         select: {
             id: true,
@@ -100,7 +103,7 @@ const remove = async (user, contactId) => {
 }
 
 const search = async (user, request) => {
-    request = validate(searchContacValidation, request)
+    request = validate(searchContactValidation, request)
 
     const skip = (request.page - 1) * request.size
 

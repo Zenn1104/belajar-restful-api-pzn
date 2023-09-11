@@ -50,7 +50,7 @@ export const createTestContact = async () => {
 }
 
 export const createManyTestContact = async () => {
-    for(let i = 0; i < 15; i++){
+    for (let i = 0; i < 15; i++) {
         await prismaClient.contact.create({
             data: {
                 username: `test`,
@@ -66,7 +66,7 @@ export const createManyTestContact = async () => {
 export const getTestContact = async () => {
     return prismaClient.contact.findFirst({
         where: {
-            username: 'test'
+            username: "test"
         }
     })
 }
