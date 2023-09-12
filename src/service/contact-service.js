@@ -28,7 +28,7 @@ const get = async (user, contactId) => {
     const contact = await prismaClient.contact.findFirst({
         where: {
             username: user.username,
-            id: contactId
+            id: contactId.id
         },
         select: {
             id: true,

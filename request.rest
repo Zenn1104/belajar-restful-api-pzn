@@ -1,0 +1,145 @@
+POST http://localhost:3000/api/users
+Content-Type: application/json
+Accept: application/json
+
+{
+    "username" : "baso",
+    "password" : "rahasia",
+    "name" : "Baso Alif"
+}
+
+###
+
+POST http://localhost:3000/api/users/login
+Content-Type: application/json
+Accept: application/json
+
+{
+    "username" : "baso",
+    "password" : "rahasia"
+}
+
+###
+
+GET http://localhost:3000/api/users/current
+Content-Type: application/json
+Accept: application/json
+Authorization: afa28cbf-b35d-421f-8396-7b66dd8a616d
+
+###
+
+PATCH  http://localhost:3000/api/users/current
+Content-Type: application/json
+Accept: application/json
+Authorization: afa28cbf-b35d-421f-8396-7b66dd8a616d
+
+{
+    "name" : "Baso M Alif"
+}
+
+###
+
+DELETE http://localhost:3000/api/users/logout
+Content-Type: application/json
+Accept: application/json
+Authorization: afa28cbf-b35d-421f-8396-7b66dd8a616d
+
+###
+
+POST http://localhost:3000/api/contacts
+Content-Type: application/json
+Accept: application/json
+Authorization: afa28cbf-b35d-421f-8396-7b66dd8a616d
+
+{
+    "first_name" : "charles",
+    "last_name" : "arip",
+    "email" : "joko@bag.com",
+    "phone" : "082233573487"
+}
+
+###
+GET http://localhost:3000/api/contacts
+Content-Type: application/json
+Accept: application/json
+Authorization: afa28cbf-b35d-421f-8396-7b66dd8a616d
+
+###
+
+GET http://localhost:3000/api/contacts/2288
+Content-Type: application/json
+Accept: application/json
+Authorization: afa28cbf-b35d-421f-8396-7b66dd8a616d
+
+
+###
+
+PUT  http://localhost:3000/api/contacts/2288
+Content-Type: application/json
+Accept: application/json
+Authorization: afa28cbf-b35d-421f-8396-7b66dd8a616d
+
+{
+    "first_name": "Alif",
+    "last_name": "gifary",
+    "email": "alif@bag.com",
+    "phone": "082296573487"
+}
+
+###
+
+DELETE   http://localhost:3000/api/contacts/2288
+Content-Type: application/json
+Accept: application/json
+Authorization: afa28cbf-b35d-421f-8396-7b66dd8a616d
+
+
+###
+POST http://localhost:3000/api/contacts/2289/addresses
+Content-Type: application/json
+Accept: application/json
+Authorization: afa28cbf-b35d-421f-8396-7b66dd8a616d
+
+{
+    "street" : "jl.bajo",
+    "city" : "makassar",
+    "province" : "sulawesi selatan",
+    "country" : "indonesia",
+    "postal_code": "91151"
+}
+
+###
+
+GET http://localhost:3000/api/contacts/2289/addresses
+Content-Type: application/json
+Accept: application/json
+Authorization: afa28cbf-b35d-421f-8396-7b66dd8a616d
+
+###
+
+GET http://localhost:3000/api/contacts/2289/addresses/75
+Content-Type: application/json
+Accept: application/json
+Authorization: afa28cbf-b35d-421f-8396-7b66dd8a616d
+
+###
+
+PUT  http://localhost:3000/api/contacts/2289/addresses/75
+Content-Type: application/json
+Accept: application/json
+Authorization: afa28cbf-b35d-421f-8396-7b66dd8a616d
+
+{
+    "street" : "jl.perintis kemerdekaan",
+    "city" : "makassar",
+    "province" : "sulawesi selatan",
+    "country" : "indonesia",
+    "postal_code": "91344"
+}
+
+###
+
+DELETE  http://localhost:3000/api/contacts/2289/addresses/75
+Content-Type: application/json
+Accept: application/json
+Authorization: afa28cbf-b35d-421f-8396-7b66dd8a616d
